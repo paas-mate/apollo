@@ -1,0 +1,61 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  push_to_registries:
+    name: Push Docker image to multiple registries
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: build push apollo admin
+        uses: docker/build-push-action@v3
+        with:
+          context: ./admin
+          file: ./admin/Dockerfile
+          push: true
+          tags: ttbb/apollo:admin
+          platforms: linux/amd64,linux/arm64
+      - name: build push apollo config
+        uses: docker/build-push-action@v3
+        with:
+          context: ./config
+          file: ./config/Dockerfile
+          push: true
+          tags: ttbb/apollo:config
+          platforms: linux/amd64,linux/arm64
+      - name: build push apollo portal
+        uses: docker/build-push-action@v3
+        with:
+          context: ./portal
+          file: ./portal/Dockerfile
+          push: true
+          tags: ttbb/apollo:portal
+          platforms: linux/amd64,linux/arm64
+      - name: build push apollo standalone
+        uses: docker/build-push-action@v3
+        with:
+          context: ./stand-alone
+          file: ./stand-alone/Dockerfile
+          push: true
+          tags: ttbb/apollo:stand-alone
+          platforms: linux/amd64,linux/arm64
