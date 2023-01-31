@@ -28,7 +28,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: build push apollo admin
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: ./admin
           file: ./admin/Dockerfile
@@ -36,7 +36,7 @@ jobs:
           tags: ttbb/apollo:admin
           platforms: linux/amd64,linux/arm64
       - name: build push apollo config
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: ./config
           file: ./config/Dockerfile
@@ -44,7 +44,7 @@ jobs:
           tags: ttbb/apollo:config
           platforms: linux/amd64,linux/arm64
       - name: build push apollo portal
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: ./portal
           file: ./portal/Dockerfile
@@ -52,7 +52,7 @@ jobs:
           tags: ttbb/apollo:portal
           platforms: linux/amd64,linux/arm64
       - name: build push apollo standalone
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: ./stand-alone
           file: ./stand-alone/Dockerfile
