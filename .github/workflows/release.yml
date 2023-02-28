@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -27,35 +28,38 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: build push apollo admin
+      - name: Push to Docker Hub
         uses: docker/build-push-action@v4
         with:
-          context: ./admin
-          file: ./admin/Dockerfile
           push: true
-          tags: ttbb/apollo:admin
+          tags: ttbb/apollo:latest
           platforms: linux/amd64,linux/arm64
-      - name: build push apollo config
-        uses: docker/build-push-action@v4
+      - name: Save Docker Images
+        run: docker pull ttbb/apollo:latest;docker save ttbb/apollo:latest -o apollo-latest.tar.gz
+      - uses: dev-drprasad/delete-tag-and-release@v0.2.0
         with:
-          context: ./config
-          file: ./config/Dockerfile
-          push: true
-          tags: ttbb/apollo:config
-          platforms: linux/amd64,linux/arm64
-      - name: build push apollo portal
-        uses: docker/build-push-action@v4
+          delete_release: true
+          tag_name: latest_docker_image
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_GITHUB_TOKEN }}
+
+      - name: Tag release
+        uses: tvdias/github-tagger@v0.0.2
         with:
-          context: ./portal
-          file: ./portal/Dockerfile
-          push: true
-          tags: ttbb/apollo:portal
-          platforms: linux/amd64,linux/arm64
-      - name: build push apollo standalone
-        uses: docker/build-push-action@v4
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          tag: latest_docker_image
+
+      # Creates the new release with the binary as a release asset.
+      # If the previous Action was skipped, then this keeps the same tag as the
+      # previous release.
+      - name: Create new release
+        uses: softprops/action-gh-release@v1
         with:
-          context: ./stand-alone
-          file: ./stand-alone/Dockerfile
-          push: true
-          tags: ttbb/apollo:stand-alone
-          platforms: linux/amd64,linux/arm64
+          body: "Latest docker image"
+          name: "latest docker image"
+          tag_name: latest_docker_image
+          files: apollo-latest.tar.gz
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_GITHUB_TOKEN }}
