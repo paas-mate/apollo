@@ -17,6 +17,7 @@ COPY --from=compiler /apollo/apollo-portal/target/classes/application.properties
 COPY docker-build /opt/apollo/mate
 
 ENV APOLLO_HOME /opt/apollo
+ENV APOLLO_LOG_DIR /opt/apollo/logs
 ENV ADMIN_SERVICE_DIR /opt/apollo/admin
 ENV CONFIG_SERVICE_DIR /opt/apollo/config
 ENV PORTAL_SERVICE_DIR /opt/apollo/portal
