@@ -13,6 +13,11 @@ COPY --from=compiler /apollo/apollo-portal/target/apollo-portal-2.2.0-SNAPSHOT.j
 
 COPY docker-build /opt/apollo/mate
 
+ENV APOLLO_HOME /opt/apollo
+ENV ADMIN_SERVICE_DIR /opt/apollo/admin
+ENV CONFIG_SERVICE_DIR /opt/apollo/config
+ENV PORTAL_SERVICE_DIR /opt/apollo/portal
+
 WORKDIR /opt/apollo
 
 CMD ["/usr/bin/dumb-init", "bash", "-vx", "/opt/apollo/mate/scripts/start.sh"]
