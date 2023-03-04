@@ -7,9 +7,9 @@ RUN git clone --depth 1 https://github.com/apolloconfig/apollo.git && \
 
 FROM shoothzj/base:jdk17
 
-COPY --from=compiler /apollo/apollo-configservice/target/apollo-configservice-2.2.0-SNAPSHOT.jar /opt/apollo/admin/apollo-configservice.jar
+COPY --from=compiler /apollo/apollo-configservice/target/apollo-configservice-2.2.0-SNAPSHOT.jar /opt/apollo/config/apollo-configservice.jar
 COPY --from=compiler /apollo/apollo-adminservice/target/apollo-adminservice-2.2.0-SNAPSHOT.jar /opt/apollo/admin/apollo-adminservice.jar
-COPY --from=compiler /apollo/apollo-portal/target/apollo-portal-2.2.0-SNAPSHOT.jar /opt/apollo/admin/apollo-portal.jar
+COPY --from=compiler /apollo/apollo-portal/target/apollo-portal-2.2.0-SNAPSHOT.jar /opt/apollo/portal/apollo-portal.jar
 
 COPY docker-build /opt/apollo/mate
 
