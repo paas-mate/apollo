@@ -1,6 +1,9 @@
 #!/bin/bash
 
 LOG_FILE="$APOLLO_HOME/logs/config.out"
+if ! [ -z ${RDS_TYPE} ]; then
+    echo "spring.profiles.group.github = $RDS_TYPE" >${CONFIG_SERVICE_DIR}/application.properties    
+fi
 nohup java  \
     -Dapollo_profile=${APOLLO_PROFILE} \
     -Dspring.datasource.url=${DATASOURCE_URL} \
