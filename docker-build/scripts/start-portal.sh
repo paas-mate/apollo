@@ -2,7 +2,7 @@
 
 LOG_FILE="$APOLLO_LOG_DIR/portal.out"
 if ! [ -z ${RDS_TYPE} ]; then
-    echo "spring.profiles.group.github = $RDS_TYPE" >${PORTAL_SERVICE_DIR}/application.properties    
+    OPTS="$OPTS -Dspring.profiles.group.github=${RDS_TYPE}"
 fi
 OPTS="$OPTS -Ddev_meta=http://localhost:8080/"
 OPTS="$OPTS -Dapollo_profile=${APOLLO_PROFILE}"

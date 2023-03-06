@@ -2,7 +2,7 @@
 
 LOG_FILE="$APOLLO_LOG_DIR/config.out"
 if ! [ -z ${RDS_TYPE} ]; then
-    echo "spring.profiles.group.github = $RDS_TYPE" >${CONFIG_SERVICE_DIR}/application.properties    
+    OPTS="$OPTS -Dspring.profiles.group.github=${RDS_TYPE}"
 fi
 OPTS="$OPTS -Dapollo_profile=${APOLLO_PROFILE}"
 OPTS="$OPTS -Dspring.datasource.url=${DATASOURCE_URL}"
