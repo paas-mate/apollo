@@ -9,4 +9,4 @@ OPTS="$OPTS -Dspring.datasource.url=${DATASOURCE_URL}"
 OPTS="$OPTS -Dspring.datasource.username=${DATASOURCE_USERNAME}"
 OPTS="$OPTS -Dspring.datasource.password=${DATASOURCE_PASSWORD}"
 OPTS="$OPTS -Dspring.jpa.database-platform=${DATASOURCE_PLATEFORM}"
-nohup java -jar ${CONFIG_SERVICE_DIR}/apollo-configservice.jar 2>&1 >$LOG_FILE &
+nohup java $OPTS -jar ${CONFIG_SERVICE_DIR}/apollo-configservice.jar 2>&1 >$LOG_FILE &
